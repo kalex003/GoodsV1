@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package goods;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "goods.v1;goods1";
+
+// Auth is service for managing permissions and roles.
+service Goods {
+  // Register registers a new user.
+  rpc Insert (InsertRequest) returns (InsertResponse);
+  // Login logs in a user and returns an auth token.
+  rpc Update (UpdateRequest) returns (UpdateResponse);
+  // IsAdmin checks whether a user is an admin.
+  rpc GetById (GetByIdRequest) returns (GetResponse);
+  rpc GetByPlace (GetByPlaceRequest) returns (GetResponse);
+  rpc GetByTare (GetByTareRequest) returns (GetResponse);
+  rpc GetHistory (GetHistoryRequest) returns (GetResponse);
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+message OneInsertRequest {
+  int64 place_id = 1;
+  int64 employee_id = 6;
+  optional int64 tare_id = 9;
+}
+
+message InsertRequest{
+  repeated OneInsertRequest structs = 1;
+}
+
+message InsertResponse {
+  repeated int64 goods_id = 1;
+  google.protobuf.Timestamp dt = 2;
+}
+
+message OneUpdateRequest {
+  int64 goods_id = 1;
+  int64 place_id = 2;
+  int64 employee_id = 7;
+  optional int64 tare_id = 10;
+}
+
+
+message UpdateRequest {
+  repeated OneUpdateRequest structs = 1;
+}
+
+message UpdateResponse {
+}
+
+
+message OneGetResponse {
+  int64 goods_id = 1;
+  int64 place_id = 2;
+  int64 employee_id = 7;
+  optional int64 tare_id = 10;
+  google.protobuf.Timestamp dt = 12;
+  bool is_del = 13;
+}
+
+message GetByIdRequest {
+  repeated int64 goods_id = 1;
+}
+
+message GetResponse {
+  repeated OneGetResponse structs = 1;
+}
+
+message GetByPlaceRequest {
+  int64 place_id = 1;
+}
+
+message GetByTareRequest {
+  int64 tare_id = 1;
+}
+
+message GetHistoryRequest {
+  int64 goods_id = 1;
+}
+message OneDeleteRequest {
+  int64 goods_id = 1;
+  bool is_del = 2;
+}
+
+
+message DeleteRequest {
+  repeated OneDeleteRequest structs = 1;
+}
+
+message DeleteResponse {
+
+}
